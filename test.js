@@ -9,12 +9,14 @@ thread threadFunc1(a, b, c) {
         console.log('boopie');
     };
     doABarrelRoll(anonymous);
+    return anonymous, c;
 }
 
 thread threadFunc() {
     var c = asyncFunc(a, b, _);
     var e = asyncFunc2(c, d, _);
     console.log(e);
+    return c, e;
 }
 
 function threadFunc() {
