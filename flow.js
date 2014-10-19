@@ -184,9 +184,10 @@ function recurse_tree(node, parent) {
 	if (!node) return;
 	if (is_thread_node(node)) handle_thread_node(node);
 
-	get_node_children(node).forEach(function(child) {
-		recurse_tree(child, node);
-	});
+	var children = get_node_children(node);
+	for (var i = 0; i < children.length; i++) {
+		recurse_tree(children[i]);
+	}
 }
 
 exports.recurseTree = recurse_tree;

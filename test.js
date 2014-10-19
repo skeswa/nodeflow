@@ -11,7 +11,7 @@ thread threadFunc1(a, b, c) {
     doABarrelRoll(anonymous);
 }
 
-function threadFunc() {
+thread threadFunc() {
     var c = asyncFunc(a, b, _);
     var e = asyncFunc2(c, d, _);
     console.log(e);

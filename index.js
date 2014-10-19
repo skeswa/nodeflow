@@ -33,6 +33,7 @@ exports.require = function(path) {
     });
     var data = functionize(data);
     var tree = esprima.parse(data);
+    console.log('\n\n', JSON.stringify(tree), '\n\n');
     flow.recurseTree(tree);
     var output = escodegen.generate(tree);
     output = output.replace(/\$\_\_thread\_\_\$\_(\d+)?/ig, '');
