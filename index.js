@@ -1,6 +1,7 @@
 var fs = require('fs'),
     escodegen = require('escodegen'),
-    data = require('./tom.json');
+    esprima = require('esprima'),
+    flow = require('./flow.js');
 
 var SEQ_REGEX = /thread(?:(?:\s+([$_\w\d]*)\s*)|(?:\s*))\(/i;
 var THREAD_PREFIX = '$__thread__$_';
@@ -26,6 +27,14 @@ var data = fs.readFileSync('test.js', {
     encoding: 'utf8'
 });
 
-console.log(functionize(data));
-// var js = escodegen.generate(data);
-// console.log(js);
+exports.require = function(path) {
+    var data = fs.readFileSync(path, {
+        encoding: 'utf8'
+    });
+    var data = functionize(data);
+    var tree = esprima.parse(data);
+    flow.recurseTree(tree);
+    var output = escodegen.generate(tree);
+    output = output.replace(/\$\_\_thread\_\_\$\_(\d+)?/ig, '');
+    console.log(output);
+};

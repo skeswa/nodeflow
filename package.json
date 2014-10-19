@@ -1,0 +1,29 @@
+{
+  "name": "nodeflow",
+  "version": "1.0.0",
+  "description": "How it flows, nobody nodes.",
+  "main": "index.js",
+  "dependencies": {
+    "escodegen": "^1.4.1",
+    "esprima": "^1.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skeswa/nodeflow.git"
+  },
+  "keywords": [
+    "node",
+    "async",
+    "flow"
+  ],
+  "author": "Santom",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skeswa/nodeflow/issues"
+  },
+  "homepage": "https://github.com/skeswa/nodeflow"
+}
