@@ -3,9 +3,9 @@ var fs = require('fs'),
     esprima = require('esprima'),
     flow = require('./flow.js');
 
-var SEQ_REGEX = /thread(?:(?:\s+([$_\w\d]*)\s*)|(?:\s*))\(/i;
-var RETURN_REGEX = /return\s([$_\w\d\s\,]*);/i;
-var THREAD_PREFIX = '$__thread__$_';
+var SEQ_REGEX = /thread(?:(?:\s+([$_\w\d]*)\s*)|(?:\s*))\(/;
+var RETURN_REGEX = /return\s([$_\w\d\s\,]*);/;
+var THREAD_PREFIX = '$__thrd__$_';
 var CALLBACK_PREFIX = '$__cb__$';
 
 var functionize = function(text) {
@@ -76,9 +76,12 @@ var readTillEndOfBlock = function(text, startIndex) {
     return -1;
 }
 
-var data = fs.readFileSync('test.js', {
-    encoding: 'utf8'
-});
+function requireFromString(src, filename) {
+    var Module = module.constructor;
+    var m = new Module();
+    m._compile(src, filename);
+    return m.exports;
+}
 
 exports.require = function(path) {
     var data = fs.readFileSync(path, {
@@ -86,9 +89,11 @@ exports.require = function(path) {
     });
     var data = functionize(data);
     var tree = esprima.parse(data);
-    console.log('\n\n', JSON.stringify(tree), '\n\n');
     flow.recurseTree(tree);
     var output = escodegen.generate(tree);
-    output = output.replace(/\$\_\_thread\_\_\$\_(\d+)?/ig, '');
+    output = output.replace(/\$\_\_thrd\_\_\$\_(\d+)?/ig, '');
     console.log(output);
+    // fs.mkdirSync('.flow');
+    fs.writeFileSync('./.flow/test.js', output);
+    return require('./.flow/test.js');
 };

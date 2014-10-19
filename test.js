@@ -1,30 +1,17 @@
-thread threadFunc() {
-    var c = asyncFunc(a, b, _);
-    var e = asyncFunc2(c, d, _);
-    console.log(e);
-}
+var mongo = require('mongodb');
+var db = new mongo.Db('turbodev', new mongo.Server('kahana.mongohq.com', 10039, {}), {});
 
-thread threadFunc1(a, b, c) {
-    var anonymous = thread() {
-        console.log('boopie');
+thread myThread() {
+    var openRes = db.open(_);
+    var authRes = db.authenticate('test', 'pass', _);
+    var colRes = openRes[1].collection("docs", _);
+    var doc = {
+        woo: 'yeahh'
     };
-    doABarrelRoll(anonymous);
-    return anonymous, c;
+    var finalRes = colRes[1].insert(doc, _);
+
+    return finalRes, colRes;
 }
 
-thread threadFunc() {
-    var c = asyncFunc(a, b, _);
-    var e = asyncFunc2(c, d, _);
-    console.log(e);
-    return c, e;
-}
-
-function threadFunc() {
-    asyncFunc(a, b, function() {
-        var c = arguments;
-        asyncFunc2(c, d, function() {
-            var e = arguments;
-            console.log(e);
-        });
-    });
-}
+module.exports.myThread = myThread;
+module.exports.thing = 'thing';

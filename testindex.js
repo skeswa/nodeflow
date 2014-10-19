@@ -1,3 +1,6 @@
 var flow = require('./index.js');
 
-flow.require('test.js');
+var test = flow.require('test.js');
+test.myThread(function(err, doc) {
+    console.log('the doc is', doc);
+});

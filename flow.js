@@ -1,4 +1,4 @@
-var THREAD_PREFIX = '$__thread__$_';
+var THREAD_PREFIX = '$__thrd__$_';
 
 function default_function_expression() {
 	return {
